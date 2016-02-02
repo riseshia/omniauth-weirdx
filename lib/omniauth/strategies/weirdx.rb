@@ -10,7 +10,7 @@ module OmniAuth
       option :authorize_options, [:scope]
 
       option :client_options, {
-        site: 'http://128.199.108.141:8000',
+        site: 'https://some.weirdx.io',
         token_url: '/oauth2/token/',
         authorize_url: '/oauth2/authorize/'
       }

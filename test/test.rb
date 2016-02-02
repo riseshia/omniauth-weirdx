@@ -7,7 +7,7 @@ end
 
 class ClientTest < StrategyTestCase
   test 'has correct Weirdx site' do
-    assert_equal 'http://128.199.108.141:8000', strategy.client.site
+    assert_equal 'https://some.weirdx.io', strategy.client.site
   end
 
   test 'has correct authorize url' do
