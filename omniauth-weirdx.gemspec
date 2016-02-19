@@ -2,7 +2,7 @@
 require File.expand_path('../lib/omniauth-weirdx/version', __FILE__)
 
 Gem::Specification.new do |spec|
-  spec.name          = 'omniauth-slack'
+  spec.name          = 'omniauth-weirdx'
   spec.version       = Omniauth::Weirdx::VERSION
   spec.authors       = ['shia']
   spec.email         = ['rise.shia@gmail.com']
