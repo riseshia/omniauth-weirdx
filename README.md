@@ -1,5 +1,7 @@
 # Omniauth::WeirdX
 
+[![Build Status](https://travis-ci.org/riseshia/omniauth-weirdx.svg?branch=master)](https://travis-ci.org/riseshia/omniauth-weirdx)
+
 This Gem contains the WeirdX strategy for OmniAuth.
 
 ## How to user 
