@@ -5,14 +5,15 @@ require "rack/utils"
 
 module OmniAuth
   module Strategies
+    # Strategy for Weirdx
     class Weirdx < OmniAuth::Strategies::OAuth2
       option :name, "weirdx"
 
       option :authorize_options, [:scope]
 
-      option :client_options, site: "https://some.weirdx.io",
-                              token_url: "/oauth2/token/",
-                              authorize_url: "/oauth2/authorize/"
+      option :client_options, site: "https://www.weirdx.io",
+                              token_url: "/api/o/token/",
+                              authorize_url: "api/o/authorize/"
 
       option :auth_token_params, mode: :query,
                                  param_name: "token"

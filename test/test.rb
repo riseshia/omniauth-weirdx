@@ -8,15 +8,15 @@ end
 
 class ClientTest < StrategyTestCase
   test "has correct Weirdx site" do
-    assert_equal "https://some.weirdx.io", strategy.client.site
+    assert_equal "https://www.weirdx.io", strategy.client.site
   end
 
   test "has correct authorize url" do
-    assert_equal "/oauth2/authorize/", strategy.client.options[:authorize_url]
+    assert_equal "api/o/authorize/", strategy.client.options[:authorize_url]
   end
 
   test "has correct token url" do
-    assert_equal "/oauth2/token/", strategy.client.options[:token_url]
+    assert_equal "/api/o/token/", strategy.client.options[:token_url]
   end
 end
 
