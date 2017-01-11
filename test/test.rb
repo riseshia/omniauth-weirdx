@@ -19,7 +19,6 @@ class ClientTest < StrategyTestCase
     assert_equal "/api/o/token/", strategy.client.options[:token_url]
   end
 end
-
 class CallbackUrlTest < StrategyTestCase
   test "returns the default callback url" do
     url_base = "http://auth.request.com"
@@ -40,11 +39,11 @@ end
 class UidTest < StrategyTestCase
   def setup
     super
-    strategy.stubs(:raw_info).returns("user_id" => "misha")
+    strategy.stubs(:raw_info).returns("id" => 10)
   end
 
   test "returns the user ID from raw_info" do
-    assert_equal "misha", strategy.uid
+    assert_equal 10, strategy.uid
   end
 end
 
@@ -100,40 +99,50 @@ class CredentialsTest < StrategyTestCase
   end
 end
 
-class UserInfoTest < StrategyTestCase
+class PointTypeTest < StrategyTestCase
   def setup
     super
     @access_token = stub("OAuth2::AccessToken")
     strategy.stubs(:access_token).returns(@access_token)
   end
 
-  test "performs a GET to https://weirdx.com/api/users.info" do
-    strategy.stubs(:raw_info).returns("user_id" => "U123")
-    @access_token.expects(:get).with("/api/users.info?user=U123")
+  test "performs a GET to https://weirdx.com/api/point_type" do
+    strategy.stubs(:raw_info).returns("id" => "U10")
+    @access_token.expects(:get)
+                 .with("/api/point_type?user=U10")
                  .returns(stub_everything("OAuth2::Response"))
-    strategy.user_info
+    strategy.point_type
   end
 
   test "URI escapes user ID" do
-    strategy.stubs(:raw_info).returns("user_id" => "../haxx?U123#abc")
+    strategy.stubs(:raw_info).returns("id" => "../haxx?U123#abc")
     @access_token.expects(:get)
-                 .with("/api/users.info?user=..%2Fhaxx%3FU123%23abc")
+                 .with("/api/point_type?user=..%2Fhaxx%3FU123%23abc")
                  .returns(stub_everything("OAuth2::Response"))
-    strategy.user_info
+    strategy.point_type
   end
 end
 
-class SkipInfoTest < StrategyTestCase
-  test "info should not include extended info when skip_info is specified" do
-    @options = { skip_info: true }
-    strategy.stubs(:raw_info).returns({})
-    assert_equal %w(user user_id), strategy.info.keys.map(&:to_s)
+class PointListTest < StrategyTestCase
+  def setup
+    super
+    @access_token = stub("OAuth2::AccessToken")
+    strategy.stubs(:access_token).returns(@access_token)
   end
 
-  test "extra should not include extended info when skip_info is specified" do
-    @options = { skip_info: true }
-    strategy.stubs(:raw_info).returns({})
-    strategy.stubs(:webhook_info).returns({})
-    assert_equal %w(raw_info), strategy.extra.keys.map(&:to_s)
+  test "performs a GET to https://weirdx.com/api/point" do
+    strategy.stubs(:raw_info).returns("id" => "U10")
+    @access_token.expects(:get)
+                 .with("/api/point?user=U10")
+                 .returns(stub_everything("OAuth2::Response"))
+    strategy.point_list
+  end
+
+  test "URI escapes user ID" do
+    strategy.stubs(:raw_info).returns("id" => "../haxx?U123#abc")
+    @access_token.expects(:get)
+                 .with("/api/point?user=..%2Fhaxx%3FU123%23abc")
+                 .returns(stub_everything("OAuth2::Response"))
+    strategy.point_list
   end
 end

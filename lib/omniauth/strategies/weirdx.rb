@@ -18,47 +18,41 @@ module OmniAuth
       option :auth_token_params, mode: :query,
                                  param_name: "token"
 
-      uid { raw_info["user_id"] }
+      uid { raw_info["id"] }
 
       info do
-        hash = {
-          user: raw_info["user"],
-          user_id: raw_info["user_id"]
+        {
+          id: raw_info["id"],
+          username: raw_info["username"],
+          email: raw_info["email"],
+          point_total: raw_info["point_total"],
+          is_staff: raw_info["is_staff"],
+          date_joined: raw_info["date_joined"]
         }
-
-        unless skip_info?
-          hash.merge!(
-            name: user_info["user"].to_h["profile"]
-                  .to_h["real_name_normalized"],
-            email: user_info["user"].to_h["profile"].to_h["email"],
-            first_name: user_info["user"].to_h["profile"].to_h["first_name"],
-            last_name: user_info["user"].to_h["profile"].to_h["last_name"]
-          )
-        end
-
-        hash
       end
 
       extra do
-        hash = {
-          raw_info: raw_info
-        }
-
-        hash[:user_info] = user_info unless skip_info?
-
-        hash
+        { raw_info: raw_info }
       end
 
       def raw_info
-        @raw_info ||= access_token.get("/api/auth.test").parsed
+        @raw_info ||= access_token.get("/api/account/info").parsed
       end
 
-      def user_info
-        url = URI.parse("/api/users.info")
-        url.query = Rack::Utils.build_query(user: raw_info["user_id"])
+      def point_type
+        url = URI.parse("/api/point_type")
+        url.query = Rack::Utils.build_query(user: raw_info["id"])
         url = url.to_s
 
-        @user_info ||= access_token.get(url).parsed
+        @point_type ||= access_token.get(url).parsed
+      end
+
+      def point_list
+        url = URI.parse("/api/point")
+        url.query = Rack::Utils.build_query(user: raw_info["id"])
+        url = url.to_s
+
+        @point_list ||= access_token.get(url).parsed
       end
     end
   end
