@@ -1,14 +1,16 @@
-require 'bundler/setup'
-require 'minitest/autorun'
-require 'mocha/setup'
-require 'omniauth/strategies/weirdx'
+# frozen_string_literal: true
+require "bundler/setup"
+require "minitest/autorun"
+require "mocha/setup"
+require "omniauth/strategies/weirdx"
 
 OmniAuth.config.test_mode = true
 
 module BlockTestHelper
   def test(name, &blk)
     method_name = "test_#{name.gsub(/\s+/, '_')}"
-    fail "Method already defined: #{method_name}" if instance_methods.include?(method_name.to_sym)
+    raise "Method already defined: #{method_name}" \
+      if instance_methods.include?(method_name.to_sym)
     define_method method_name, &blk
   end
 end
@@ -20,7 +22,9 @@ module CustomAssertions
   end
 
   def refute_has_key(key, hash, msg = nil)
-    msg = message(msg) { "Expected #{hash.inspect} not to have key #{key.inspect}" }
+    msg = message(msg) do
+      "Expected #{hash.inspect} not to have key #{key.inspect}"
+    end
     refute hash.key?(key), msg
   end
 end
@@ -32,15 +36,15 @@ end
 
 class StrategyTestCase < TestCase
   def setup
-    @request = stub('Request')
+    @request = stub("Request")
     @request.stubs(:params).returns({})
     @request.stubs(:cookies).returns({})
     @request.stubs(:env).returns({})
     @request.stubs(:scheme).returns({})
     @request.stubs(:ssl?).returns(false)
 
-    @client_id = 'cid'
-    @client_secret = '1fndn123nadfa'
+    @client_id = "cid"
+    @client_secret = "1fndn123nadfa"
   end
 
   def strategy
@@ -53,4 +57,4 @@ class StrategyTestCase < TestCase
   end
 end
 
-Dir[File.expand_path('../support/**/*', __FILE__)].each &method(:require)
+Dir[File.expand_path("../support/**/*", __FILE__)].each(&method(:require))
