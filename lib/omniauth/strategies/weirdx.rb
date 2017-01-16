@@ -13,9 +13,9 @@ module OmniAuth
 
       option :client_options, site: "https://www.weirdx.io",
                               token_url: "/api/o/token/",
-                              authorize_url: "api/o/authorize/"
+                              authorize_url: "/api/o/authorize/"
 
-      option :auth_token_params, mode: :query,
+      option :auth_token_params, mode: :header,
                                  param_name: "token"
 
       uid { raw_info["id"] }

@@ -12,13 +12,14 @@ class ClientTest < StrategyTestCase
   end
 
   test "has correct authorize url" do
-    assert_equal "api/o/authorize/", strategy.client.options[:authorize_url]
+    assert_equal "/api/o/authorize/", strategy.client.options[:authorize_url]
   end
 
   test "has correct token url" do
     assert_equal "/api/o/token/", strategy.client.options[:token_url]
   end
 end
+
 class CallbackUrlTest < StrategyTestCase
   test "returns the default callback url" do
     url_base = "http://auth.request.com"
